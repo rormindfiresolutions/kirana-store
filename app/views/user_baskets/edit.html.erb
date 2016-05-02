@@ -1,0 +1,62 @@
+<% provide(:title, 'Shopping Cart') %>
+
+<h1> Cart </h1>
+<% total_sum = 0 %>
+<% shop_profiles = @user_baskets.select(:shop_profile_id).distinct %>
+  <% shop_profiles.each do |shop| %>
+  <h2><%= ShopProfile.where(id: shop.shop_profile_id).first.shop_name %></h2>
+  <% user_basket = @user_baskets.where(shop_profile_id: shop.shop_profile_id) %>
+      
+  <table class="tablesaw tablesaw-stack display" data-tablesaw-mode="stack" id="products-table" >
+    <thead>
+      <tr>
+        <th> Item Details </th>
+        <th> Price </th>
+        <th> Quantity </th>
+        <th> Change Quantity</th>
+        <th> Subtotal </th>
+        <th> </th>
+      </tr>
+    </thead
+
+    <tbody>
+    <% sum = 0 %>
+    <% user_basket.each do |item| %>
+          <tr>
+            <td> <b class="tablesaw-cell-label"> Item Details </b> <%= ShopProduct.where(id: item.shop_product_id).first.product_name %> </td>
+            <td> <b class="tablesaw-cell-label"> Price </b> <%= ShopProduct.where('id = ?', item.shop_product_id).first.selling_price %> </td>
+            <td> <b class="tablesaw-cell-label"> Quantity </b> <%= item.quantity %> </td>
+            <td> <b class="tablesaw-cell-label"> Change Quantity </b> <%= link_to 'Change Quantity', edit_quantity_user_basket_path(item), remote: true, data: { toggle: "modal", target: "#modal-window" } %></td>
+            <td> <b class="tablesaw-cell-label"> Sub Total </b> <%= item.quantity * ShopProduct.where('id = ?', item.shop_product_id).first.selling_price %>
+            <% sum += item.quantity * ShopProduct.where('id = ?', item.shop_product_id).first.selling_price %></td>
+            <td> <b class="tablesaw-cell-label"> Item Details </b> <%= link_to('Remove Item', item, method: :delete, data: { confirm: 'Are you sure?' }) %></td>  
+          </tr>
+      <% end %> 
+      <tr>
+        <td colspan="5"></td>
+        <td><strong> Total : <%= sum  %></strong></td>
+      </tr>
+
+      <% shop_profile = ShopProfile.find(shop.shop_profile_id) %>
+      <tr>
+        <td colspan="5"></td>
+        <% if find_shipping_charge(shop,sum) %>
+          <td><strong> Shipping Charge +0 </strong></td>
+        <% else %> 
+          <td><strong> Shipping Charge +<%= shipping_charge(shop,sum) %></strong></td>           
+        <% end %>
+      </tr>
+        <% if find_shipping_charge(shop,sum) %>
+          <% total_sum +=sum %>
+        <% else %>
+          <% total_sum += sum + shipping_charge(shop,sum) %>
+        <% end %>
+    </tbody>
+
+  </table>
+<% end %> 
+
+<div style="float: right;"> <h3> You Pay <%= total_sum %> </h3> </div>
+<%= link_to 'Place Order', new_order_line_path, method: :get, class: "btn btn-primary" %>
+
+<div class="modal fade" id="modal-window" role="dialog" aria-hidden="true"></div>

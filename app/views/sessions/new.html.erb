@@ -1,0 +1,48 @@
+<% provide(:title, 'Signin/Signup') %>
+
+  <section id="form"><!--form-->
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4 col-sm-offset-1">
+          <div class="login-form"><!--login form-->
+            <h2>Login to your account</h2>
+            <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+              <%= f.email_field :email, autofocus: true, placeholder: 'Email',onblur: 'validate_email(this.id)' %>
+              <%= f.password_field :password, placeholder: 'Password', autocomplete: "off", onblur: 'validate_password(this.id)'%>
+              <span>
+                <% if devise_mapping.rememberable? -%>
+                  <%= f.check_box :remember_me ,class: "checkbox"%>
+                  Remember me
+                <% end %>
+              </span>
+              <%= f.button 'Login',type: :submit %>
+            <% end %>
+          </div><!--/login form-->
+        </div>
+        <div class="col-sm-1">
+          <h2 class="or">OR</h2>
+        </div>
+        <div class="col-sm-4">
+          <div class="signup-form"><!--sign up form-->
+            <h2>New User Signup!</h2>
+            <%= form_for @user, url: user_registration_path do |f| %>
+              <%= f.email_field :email, autofocus: true, placeholder: 'Email', onblur: 'validate_email(this.id)' %>
+              <%= f.password_field :password, placeholder: 'Password', autocomplete: "off", onblur: 'validate_password(this.id)'%>
+              <%= f.password_field :password_confirmation, placeholder: 'Password Confirmation', autocomplete: "off", onblur: 'validate_password_confirmation(this.id)'%>
+              <div class = "radiobuttons col-sm-12">
+                <div class ="col-sm-6">
+                    Customer
+                    <%= f.radio_button :role, 'customer', checked: true, class: 'radiobutton radio' %>
+                </div>
+                <div class ="col-sm-6">
+                    Shopkeeper
+                    <%= f.radio_button :role, 'shopkeeper', class: 'radiobutton radio' %>
+                </div>
+              </div>
+              <%= f.button 'Create Account',type: :submit %>
+            <% end %>
+          </div><!--/sign up form-->
+        </div>
+      </div>
+    </div>
+  </section><!--/form-->

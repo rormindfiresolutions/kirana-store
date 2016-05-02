@@ -1,0 +1,29 @@
+<% provide(:title, 'Add Inventory Details') %>
+
+<div class = 'register-section container'>
+
+<h1> Add Inventory Details </h1>
+
+	<div class="col-md-6 col-md-offset-3">
+
+		<%= form_for @shop_inventory_detail,url: shop_inventory_details_path(shop_product_id: @shop_product.id),
+		 html: {method: 'post'}  do |f| %>
+
+			<div class="select" >
+				<b> Inventory type: </b>
+				<%= f.select "inventory_type", options_for_select([ 'Sale', 'Purchase', 'Adjustment' ,'Initialization' ], 'Sale')%>
+			</div>
+
+			<%= f.label :quantity %>
+			<%= f.number_field :quantity, class: "form-control", steps: 'any', min: 0 %>
+
+			<%= f.label :notes %>
+			<%= f.text_field :notes, class: "form-control" %>
+
+			<%= f.button 'Add Details', class: "btn btn-primary" %>
+
+		<% end %>
+		
+	</div>
+	
+</div>

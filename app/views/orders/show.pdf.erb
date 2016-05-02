@@ -1,0 +1,37 @@
+<div class= "container">
+  <h3> Invoice </h3>
+  <p> Your order was placed on <%= Time.now.strftime("%d-%m-%Y %H:%M:%S") %> </p>
+  <div class="table-responsive">          
+    <table class="table">
+      <thead>
+        <th> Product </th>
+        <th> Price </th>
+        <th> Quantity </th>
+        <th> Subtotal </th>
+      </thead>
+      <tbody>
+        <% unless @order.nil? %>
+          <% @order.order_lines.each do |item| %>
+            <tr>
+              <td> <%= item.shop_product_name%> </td>
+              <td> <%= item.shop_product_price %> </td>
+              <td> <%= item.quantity %> </td>
+              <td> <%= item.line_value %> </td>   
+            </tr> 
+          <% end %>
+        <% end %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td> Shipping Charge <%= @order.shipping_charge %> </td>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td> Total Amount <%= @order.order_value %> </td>
+        </tr>
+      </tbody> 
+    </table>
+  </div>
+</div>

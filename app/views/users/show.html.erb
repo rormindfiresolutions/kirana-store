@@ -1,0 +1,26 @@
+<div>
+	<div class="col-md-6 col-md-offset-1">
+		<% if !@user.nil? %>
+		<h3>
+			<div>
+				Name: <%= @user.user_profile.first_name + " " + @user.user_profile.last_name%>
+			</div>
+			<div>
+				Email: <%= @user.email %>
+			</div>
+
+			<div>
+				Phone: <%= @user.user_profile.phone_number %>
+			</div>
+
+			<div>
+				Secondary Email: <%= @user.user_profile.email %>
+			</div>
+
+			<div>
+				Role: <%= @user.role %>
+			</div>
+		</h3>
+	<% end %>
+	</div>
+</div>

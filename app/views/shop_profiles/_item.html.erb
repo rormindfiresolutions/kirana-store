@@ -1,0 +1,27 @@
+<div class="col-sm-4">
+	<div class="product-image-wrapper">
+		<div class="single-products">
+			<div class="productinfo text-center ">
+				<%= image_tag url_for(controller: 'shop_products', action: 'show_image', id: item.id),
+					class: 'thumb-image',alt: item.product_name %>
+				<div class='title-section-expand'>
+					<h6><%= item.brand_name %></h6>
+					<h5><%= item.product_name + '(' + item.unit_type + ')' %> </h5>
+					<h5> Quantity Remaining : <%= item.shop_inventory.quantity %> </h5>
+					<h2> M.R.P : <%= item.mrp %> </h2>
+					<h2> S.P : <%= item.selling_price %> </h2>
+				</div>
+				<% if current_user.shopkeeper? and policy(@shop_profile).show? %>
+					<a href="<%= edit_shop_profile_shop_product_path(@shop_profile, item) %>" class="btn btn-primary"> Price </a>
+					<a href="<%= shop_inventory_details_path(shop_product_id: item.id) %>" class="btn btn-primary"> Transactions </a>
+				<% else %>
+					<% if item.shop_inventory.quantity == 0 %>
+						<%= link_to 'Out of Stock', '#', class: 'btn btn-default add-to-cart', disabled: true %>
+					<% else %>
+						<a href="<%= user_basket_path(id: item.id) %>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+					<% end %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
