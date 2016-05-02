@@ -1,5 +1,5 @@
 Rails.application.configure do
-  config.action_mailer.default_url_options = { :host => "https://fast-peak-76550.herokuapp.com" }
+  config.action_mailer.default_url_options = { :host => "https://immense-springs-14759.herokuapp.com" }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
