@@ -38,7 +38,7 @@
 								</h4>
 							</div>
 						</div>
-						<% @products.group(:category_id).each do |item| %>
+						<% @products.select(:category_id).group(:category_id).each do |item| %>
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
